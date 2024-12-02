@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Botonera</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    </head>
+    <body>
+        <!-- Header con menú desplegable y switch -->
+        <header>
+            <div class="menu">
+                <h2>Botonera</h2>
+                <label class="theme-switch">
+                    <input type="checkbox" onchange="toggleTheme()">
+                    <span class="slider"></span>
+                </label>
+                <button onclick="toggleDropdown()">Agregar Botón</button>
+            </div>
+            <div class="dropdown">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <label for="audio">Seleccionar audio:</label>
+                    <input type="file" id="audio" name="audio" accept="audio/*" required>
+                    <label for="image">Seleccionar imagen:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    <label for="audio_name">Nombre del botón:</label>
+                    <input type="text" id="audio_name" name="audio_name" placeholder="Escribe algo..." required>
+                    <button type="submit">Subir</button>
+                </form>
+            </div>
+        </header>
+
+        <!-- Contenedor de botones -->
+        <h1>Botones</h1>
+        <div class="container">
+            {% for audio in audios %}
+            <a href='/play/{{audio['id']}}'>
+                <img src='{{ url_for('static', filename='images/' + audio["img"]) }}' alt="Imagen de {{audio['name']}}">
+                <p>{{ audio['name'] }}</p>
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Scripts -->
+        <script>
+            // Función para alternar el menú desplegable
+            function toggleDropdown() {
+                const dropdown = document.querySelector('.dropdown');
+                dropdown.classList.toggle('open');
+            }
+
+            // Función para alternar entre temas claro y oscuro
+            function toggleTheme() {
+                const body = document.body;
+                body.classList.toggle('dark-mode');
+                const isDarkMode = body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            }
+
+            // Cargar el tema guardado al cargar la página
+            window.onload = () => {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                }
+            };
+        </script>
+    </body>
+</html>

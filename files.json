@@ -1,0 +1,28 @@
+{
+    "files": [
+        {
+            "id": 0,
+            "filename": "u a a u a a.mp3",
+            "name": "Monos",
+            "img": "monkey.jpg"
+        },
+        {
+            "id": 1,
+            "filename": "gato-riendo_6bOc2ur.mp3",
+            "name": "Gato",
+            "img": "3818d72d-9e92-442a-a38b-7621bdec617d.jpg"
+        },
+        {
+            "id": 2,
+            "filename": "popin-redrum.mp3",
+            "name": "Redrum",
+            "img": "0x1900-000000-80-0-0.jpg"
+        },
+        {
+            "id": 3,
+            "filename": "miau-triste.mp3",
+            "name": "miau triste",
+            "img": "764607e069c5e6c8ab1ca6d8ea4d01f5.jpg"
+        }
+    ]
+}
