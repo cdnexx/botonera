@@ -1,15 +1,16 @@
 /* General */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #121212;
+    color: #ffffff;
     margin: 0;
     padding: 0;
 }
 
 h1 {
-    color: #333;
+    color: #ffffff;
     text-align: center;
-    margin: 100px 0 20px; /* Espacio suficiente para evitar superposición con el header */
+    margin: 0;
 }
 
 /* Header */
@@ -17,223 +18,258 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #007BFF;
+    background-color: #1f1f1f;
     color: white;
+    padding: 15px 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
 header .menu {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Asegura que el título y el botón estén en extremos opuestos */
     align-items: center;
-    padding: 10px 20px;
+    max-width: 1200px; /* Limita el ancho máximo del contenido */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
 }
 
-header .menu h2 {
-    margin: 0;
-    font-size: 20px;
-}
-
-header .menu button {
-    background-color: white;
-    color: #007BFF;
+.add-button {
+    background-color: #007BFF;
+    color: white;
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 10px 15px;
     cursor: pointer;
     font-size: 14px;
+    transition: background 0.3s ease;
 }
 
-header .menu button:hover {
-    background-color: #f1f1f1;
+.add-button:hover {
+    background-color: #0056b3;
 }
 
-/* Dropdown Menu */
+/* Dropdown */
 .dropdown {
+    display: none;
     position: absolute;
     top: 60px;
     right: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 300px;
     z-index: 1000;
 }
 
-.dropdown.open {
-    display: block;
-}
-
-.dropdown form {
-    padding: 20px;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espaciado entre los elementos del formulario */
-}
-
 .dropdown label {
-    color: #333; /* Color visible */
+    display: block;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
 .dropdown input[type="file"],
 .dropdown input[type="text"] {
-    width: 100%; /* Asegura que los inputs ocupen todo el espacio disponible */
+    width: 100%;
     padding: 10px;
-    margin: 0; /* Elimina cualquier margen por defecto */
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border: 1px solid #555;
     border-radius: 5px;
-    font-size: 14px;
-    color: #333;
-    background-color: #f9f9f9;
-    box-sizing: border-box; /* Evita que el padding y el borde rompan el ancho */
+    color: white;
+    background-color: #333;
 }
 
 .dropdown button {
-    width: 100%; /* Botón a lo largo de todo el contenedor */
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007BFF;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
+    padding: 10px 15px;
     cursor: pointer;
+    font-size: 14px;
     transition: background 0.3s ease;
+    width: 100%;
 }
 
 .dropdown button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
-/* Botones del contenedor */
+/* Contenedor principal */
 .container {
-    margin-top: 40px; /* Ajustar margen para evitar superposición con el header */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
     width: 90%;
     max-width: 1200px;
+    margin: 100px auto 20px; /* Espaciado superior para evitar que se superponga con el header */
 }
 
-.container a {
+.button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
     width: 150px;
-    height: 150px;
+    height: 200px;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.container a:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.container img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 50%;
-}
-
-.container p {
-    font-size: 14px;
-    color: #333;
     text-align: center;
-    margin: 0;
 }
 
-/* Estilo del switch */
-.theme-switch {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 40px;
-    height: 20px;
-    margin-right: 10px;
-}
-
-.theme-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.theme-switch .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    border-radius: 20px;
-    transition: 0.4s;
-}
-
-.theme-switch input:checked + .slider {
-    background-color: #007BFF;
-}
-
-.theme-switch .slider::before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
+.button-container img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
     border-radius: 50%;
-    transition: 0.4s;
+    margin-bottom: 10px;
 }
 
-.theme-switch input:checked + .slider::before {
-    transform: translateX(20px);
+.button-container p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 14px;
 }
 
-/* Modo oscuro */
-body.dark-mode {
-    background-color: #121212;
+.button-link {
+    text-decoration: none;
     color: #ffffff;
 }
 
-body.dark-mode header {
-    background-color: #1f1f1f;
+.edit-button {
+    margin-top: 10px;
+    background-color: #007BFF;
     color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s ease;
 }
 
-body.dark-mode .dropdown {
-    background-color: #1f1f1f;
-    border-color: #333;
-    color: white;
+.edit-button:hover {
+    background-color: #0056b3;
 }
 
-body.dark-mode .dropdown input[type="file"],
-body.dark-mode .dropdown input[type="text"] {
-    background-color: #333;
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: #1f1f1f;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    width: 400px;
     color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box; /* Asegura que padding no afecte el tamaño */
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Asegura que los elementos ocupen el mismo ancho */
+    gap: 10px; /* Espaciado uniforme */
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="file"] {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 10px;
     border: 1px solid #555;
-}
-
-body.dark-mode .container a {
-    background-color: #1f1f1f;
-    border-color: #333;
-}
-
-body.dark-mode .container a:hover {
+    border-radius: 5px;
     background-color: #333;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+    color: white;
+    box-sizing: border-box; /* Incluye padding y bordes */
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between; /* Alinea los botones a los extremos */
+    align-items: center;
+    margin-top: 10px;
+}
+
+.delete-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+.delete-link:hover {
+    color: #c82333;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    width: auto; /* Ajusta el tamaño al contenido */
+    align-self: flex-end; /* Asegura que el botón "Guardar Cambios" esté alineado a la derecha */
+}
+
+
+
+.modal-content button:hover {
+    background-color: #218838;
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ccc;
+}
+
+.image-preview {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.image-preview img {
+    width: 100px; /* Mantén un tamaño fijo consistente */
+    height: 100px; /* Asegura que el alto sea igual al ancho */
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen no se deforme */
+    border: 2px solid #555; /* Opcional: borde para consistencia visual */
 }

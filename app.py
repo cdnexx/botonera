@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, request, render_template, jsonify
 import pygame
 import os
 import json
@@ -100,6 +100,62 @@ def upload_file():
     save_audio_data(datos)
 
     return redirect('/')
+
+
+@app.route('/edit/<int:audio_id>', methods=['POST'])
+def edit_audio(audio_id):
+    datos = cargar_datos()
+    audio = buscar_por_id(datos['files'], audio_id)
+
+    if not audio:
+        return jsonify({'error': 'Botón no encontrado'}), 404
+
+    new_name = request.form.get('audio_name')
+    new_image = request.files.get('image')
+
+    # Actualizar nombre
+    if new_name:
+        audio['name'] = new_name
+
+    # Actualizar imagen
+    if new_image and new_image.filename:
+        old_image_path = os.path.join(IMAGE_PATH, audio['img'])
+        if os.path.exists(old_image_path):
+            os.remove(old_image_path)
+
+        new_image_path = os.path.join(IMAGE_PATH, new_image.filename)
+        new_image.save(new_image_path)
+        audio['img'] = new_image.filename
+
+    save_audio_data(datos)
+    return redirect('/')
+
+
+@app.route('/delete/<int:audio_id>', methods=['GET'])
+def delete_audio(audio_id):
+    data = cargar_datos()  # Carga los datos del archivo JSON
+    # Encuentra el botón correspondiente
+    audio = buscar_por_id(data['files'], audio_id)
+
+    if not audio:
+        return jsonify({"error": "Botón no encontrado"}), 404
+
+    # Eliminar los archivos asociados
+    audio_path = os.path.join(AUDIO_PATH, audio['filename'])
+    image_path = os.path.join(IMAGE_PATH, audio['img'])
+
+    pygame.mixer.quit()
+
+    if os.path.exists(audio_path):
+        os.remove(audio_path)
+    if os.path.exists(image_path):
+        os.remove(image_path)
+
+    # Eliminar el botón del JSON
+    data['files'] = [file for file in data['files'] if file['id'] != audio_id]
+    save_audio_data(data)  # Guarda los datos actualizados
+
+    return redirect('/')  # Redirige a la página principal
 
 
 if __name__ == '__main__':

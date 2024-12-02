@@ -21,8 +21,38 @@
         {
             "id": 3,
             "filename": "miau-triste.mp3",
-            "name": "miau triste",
+            "name": "miau sad",
             "img": "764607e069c5e6c8ab1ca6d8ea4d01f5.jpg"
+        },
+        {
+            "id": 4,
+            "filename": "amazed-onniich.mp3",
+            "name": "onichan",
+            "img": "6dcb37b4-daee-4cd1-9189-99b1205ff875.jpg"
+        },
+        {
+            "id": 6,
+            "filename": "nom-nom-nom_gPJiWn4.mp3",
+            "name": "minecraf comiendo",
+            "img": "Screenshot_5.png"
+        },
+        {
+            "id": 7,
+            "filename": "fortnite-corail.mp3",
+            "name": "fornit corail",
+            "img": "imagen_2024-12-02_031531142.png"
+        },
+        {
+            "id": 8,
+            "filename": "gato_1.mp3",
+            "name": "miau bb",
+            "img": "IMG-20240316-WA0026.jpg"
+        },
+        {
+            "id": 9,
+            "filename": "wena-cabros-chupenme-el-pene-creditos-a-at-graphs-kidd-zak.mp3",
+            "name": "wena",
+            "img": "images.jpg"
         }
     ]
 }

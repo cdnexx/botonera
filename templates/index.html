@@ -7,63 +7,153 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     </head>
     <body>
-        <!-- Header con menú desplegable y switch -->
+        <!-- Header -->
         <header>
             <div class="menu">
-                <h2>Botonera</h2>
-                <label class="theme-switch">
-                    <input type="checkbox" onchange="toggleTheme()">
-                    <span class="slider"></span>
-                </label>
-                <button onclick="toggleDropdown()">Agregar Botón</button>
-            </div>
-            <div class="dropdown">
-                <form action="/upload" method="post" enctype="multipart/form-data">
-                    <label for="audio">Seleccionar audio:</label>
-                    <input type="file" id="audio" name="audio" accept="audio/*" required>
-                    <label for="image">Seleccionar imagen:</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                    <label for="audio_name">Nombre del botón:</label>
-                    <input type="text" id="audio_name" name="audio_name" placeholder="Escribe algo..." required>
-                    <button type="submit">Subir</button>
-                </form>
+                <h1>Botonera</h1>
+                <button onclick="openAddModal()" class="add-button">Agregar Botón</button>
             </div>
         </header>
 
-        <!-- Contenedor de botones -->
-        <h1>Botones</h1>
+        <!-- Contenedor principal -->
         <div class="container">
             {% for audio in audios %}
-            <a href='/play/{{audio['id']}}'>
-                <img src='{{ url_for('static', filename='images/' + audio["img"]) }}' alt="Imagen de {{audio['name']}}">
-                <p>{{ audio['name'] }}</p>
-            </a>
+            <div class="button-container">
+                <a href="/play/{{ audio['id'] }}" class="button-link">
+                    <img src="{{ url_for('static', filename='images/' + audio['img']) }}" alt="Imagen de {{ audio['name'] }}">
+                    <p>{{ audio['name'] }}</p>
+                </a>
+                <button class="edit-button" 
+                        onclick="openModal({{ audio['id'] }}, '{{ audio['name']|escape }}', '{{ audio['img']|escape }}')">
+                    Editar
+                </button>
+            </div>
             {% endfor %}
         </div>
+        
+        
 
-        <!-- Scripts -->
+        <!-- Popup Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Editar Botón</h2>
+                <!-- Contenedor para mostrar la imagen actual -->
+                <div class="image-preview">
+                    <img id="currentImage" src="" alt="Imagen actual" />
+                </div>
+                <form id="editForm" method="post" enctype="multipart/form-data">
+                    <label for="audio_name">Nuevo Nombre:</label>
+                    <input type="text" id="audio_name" name="audio_name" required>
+                    <label for="image">Nueva Imagen:</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <div class="modal-buttons">
+                        <!-- Enlace para eliminar -->
+                        <a href="#" id="deleteLink" class="delete-link">Eliminar</a>
+                        <button type="submit">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal para Agregar Botón -->
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAddModal()">&times;</span>
+                <h2>Agregar Botón</h2>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <label for="audio">Seleccionar Audio:</label>
+                    <input type="file" id="audio" name="audio" accept="audio/*" required>
+                    <label for="image">Seleccionar Imagen:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    <label for="audio_name">Nombre del Botón:</label>
+                    <input type="text" id="audio_name" name="audio_name" placeholder="Escribe algo..." required>
+                    <div class="modal-buttons">
+                        <button type="submit">Crear Botón</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+
+        <!-- Script -->
         <script>
-            // Función para alternar el menú desplegable
+            const editModal = document.getElementById("editModal");
+            const editForm = document.getElementById("editForm");
+            const deleteLink = document.getElementById("deleteLink");
+            const currentImage = document.getElementById("currentImage");
+            const audioNameInput = document.getElementById("audio_name");
+        
+            function openModal(id, name, img) {
+                console.log("valores: ", id, name, img);
+                
+                // Configura el nombre actual en el campo de texto
+                audioNameInput.value = name;
+
+                console.log(audioNameInput.value);
+                
+        
+                // Actualiza la imagen en la vista previa
+                currentImage.src = `/static/images/${img}`;
+                currentImage.alt = `Imagen de ${name}`;
+        
+                // Actualiza las acciones del formulario
+                editForm.action = `/edit/${id}`;
+                deleteLink.href = `/delete/${id}`;
+        
+                // Muestra el modal
+                editModal.style.display = "block";
+            }
+        
+            function closeModal() {
+                // Oculta el modal
+                editModal.style.display = "none";
+            }
+        
+            // Cierra el modal si se hace clic fuera del contenido
+            window.onclick = function (event) {
+                if (event.target === editModal) {
+                    closeModal();
+                }
+            };
+        </script>     
+        <script>
+            const dropdown = document.getElementById("dropdown");
+        
             function toggleDropdown() {
-                const dropdown = document.querySelector('.dropdown');
-                dropdown.classList.toggle('open');
+                // Alterna la visibilidad del formulario
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                } else {
+                    dropdown.style.display = "block";
+                }
             }
-
-            // Función para alternar entre temas claro y oscuro
-            function toggleTheme() {
-                const body = document.body;
-                body.classList.toggle('dark-mode');
-                const isDarkMode = body.classList.contains('dark-mode');
-                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        
+            // Cierra el dropdown si se hace clic fuera de él
+            window.onclick = function (event) {
+                if (event.target !== dropdown && !dropdown.contains(event.target) && event.target.className !== "add-button") {
+                    dropdown.style.display = "none";
+                }
+            };
+        </script>   
+        <script>
+            const addModal = document.getElementById("addModal");
+        
+            function openAddModal() {
+                addModal.style.display = "block"; // Muestra el modal
             }
-
-            // Cargar el tema guardado al cargar la página
-            window.onload = () => {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'dark') {
-                    document.body.classList.add('dark-mode');
+        
+            function closeAddModal() {
+                addModal.style.display = "none"; // Oculta el modal
+            }
+        
+            // Cierra el modal si se hace clic fuera del contenido
+            window.onclick = function (event) {
+                if (event.target === addModal) {
+                    closeAddModal();
                 }
             };
         </script>
+        
     </body>
 </html>
